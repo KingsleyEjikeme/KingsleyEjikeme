@@ -1,0 +1,213 @@
+{
+  "metadata": {
+    "language_info": {
+      "codemirror_mode": {
+        "name": "python",
+        "version": 3
+      },
+      "file_extension": ".py",
+      "mimetype": "text/x-python",
+      "name": "python",
+      "nbconvert_exporter": "python",
+      "pygments_lexer": "ipython3",
+      "version": "3.8"
+    },
+    "kernelspec": {
+      "name": "python",
+      "display_name": "Python (Pyodide)",
+      "language": "python"
+    }
+  },
+  "nbformat_minor": 4,
+  "nbformat": 4,
+  "cells": [
+    {
+      "cell_type": "code",
+      "source": "import pandas as pd\nimport numpy as np\nimport datetime as dt\nimport matplotlib as plt",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 316,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": "'This data includes the combined raw data for footholds and would be used in the invoice preparation for the month of September.'\n",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 318,
+      "outputs": [
+        {
+          "execution_count": 318,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "'This data includes the combined raw data for footholds and would be used in the invoice preparation for the month of September.'"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "Sep_invoicing = 'Sep invoice.csv'\n\nfootholds = pd.read_csv(Sep_invoicing)",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 319,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": "print('After importing the CSV format, we need to print the first ten of the data to visualize the data set to have an idea of what the column headings are')\n\nprint()\n\nprint(\"Looking at the shape of the this dataset, there are 1280 rows and 9 columns\")\nprint(footholds.shape)\n\nprint()\n\nfootholds.head(10)",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 320,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "After importing the CSV format, we need to print the first ten of the data to visualize the data set to have an idea of what the column headings are\n\nLooking at the shape of the this dataset, there are 1280 rows and 9 columns\n(2361, 9)\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 320,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "              Student   Start Date  Duration (hours)  \\\n0     Yzereef, Mathew  2023-Sep-04               2.0   \n1  Archambault, Mason  2023-Sep-05               2.0   \n2       Quitley, Jack  2023-Sep-04               2.0   \n3    St. Luke, Carson  2023-Sep-04               2.5   \n4    Slater, Khaleesi  2023-Sep-05               5.0   \n5    Campbell, Johnny  2023-Sep-05               2.0   \n6     Rose-Pace, Shay  2023-Sep-04               3.0   \n7   McKenzie, Diamond  2023-Sep-05               2.0   \n8     Pinder, Damario  2023-Sep-01               2.0   \n9   Drzewiecki, Mason  2023-Sep-05               2.0   \n\n            Interventionist            Service Type  \\\n0  Lambright, Alexandra (5)  At Home - OT Assistant   \n1       Panter, Brittni (5)                    Lead   \n2       Panter, Brittni (5)  At Home - OT Assistant   \n3        Davies (5), Shanna            Intervention   \n4       Przystupa, Jozefina            Intervention   \n5          Bertin, Brooklyn            Intervention   \n6            Dubeau, Jordan            Intervention   \n7  Lambright, Alexandra (5)            Intervention   \n8       Skolski (0), Hayden            Intervention   \n9  Lambright, Alexandra (5)            Intervention   \n\n                                              Status Start Time  End Time  \\\n0  Cancelled by Staff or Footholds  - no billing ...    3:00 PM   5:00 PM   \n1  Cancelled by Parent  - no billing & staff not ...   12:30 PM   2:30 PM   \n2  Cancelled by Staff or Footholds  - no billing ...    1:00 PM   3:00 PM   \n3  Cancelled by Staff or Footholds  - no billing ...    9:30 AM  12:00 PM   \n4                                           Attended    9:00 AM   2:00 PM   \n5  24 Hour Cancellation - no billing & staff not ...    3:00 PM   5:00 PM   \n6  Cancelled by Staff or Footholds  - no billing ...    9:00 AM  12:00 PM   \n7  CANCELLATION FORM - session is billed & staff ...    2:00 PM   4:00 PM   \n8                                           Attended    3:00 PM   5:00 PM   \n9                                           Attended    4:00 PM   6:00 PM   \n\n                                        Session Name  \n0    Mathew Yzereef - Alex - 3:00-5:00  Stat Holiday  \n1                        Mason Archambault - Brittni  \n2  Jack Quitley - Brittni (OT assistant) (2:45PM ...  \n3          Carson St. Luke intervention Stat Holiday  \n4                Khaleesi Slater - Jozefina -  9-2pm  \n5  Johnny Campbell - Brooklyn - 3:00-5:00(4:30PU)...  \n6  Shay Rose-Pace - Jordan D - 9:00-12:00 (1:50PU...  \n7  Diamond McKenzie - Alex - 2-4pm (Bus d/o) (inc...  \n8      Damario Pinder - Hayden - 3:00-5:00 (4:45 PU)  \n9              Mason Drzewiecki - Alex L (5:45pm pu)  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>Student</th>\n      <th>Start Date</th>\n      <th>Duration (hours)</th>\n      <th>Interventionist</th>\n      <th>Service Type</th>\n      <th>Status</th>\n      <th>Start Time</th>\n      <th>End Time</th>\n      <th>Session Name</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>Yzereef, Mathew</td>\n      <td>2023-Sep-04</td>\n      <td>2.0</td>\n      <td>Lambright, Alexandra (5)</td>\n      <td>At Home - OT Assistant</td>\n      <td>Cancelled by Staff or Footholds  - no billing ...</td>\n      <td>3:00 PM</td>\n      <td>5:00 PM</td>\n      <td>Mathew Yzereef - Alex - 3:00-5:00  Stat Holiday</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>Archambault, Mason</td>\n      <td>2023-Sep-05</td>\n      <td>2.0</td>\n      <td>Panter, Brittni (5)</td>\n      <td>Lead</td>\n      <td>Cancelled by Parent  - no billing &amp; staff not ...</td>\n      <td>12:30 PM</td>\n      <td>2:30 PM</td>\n      <td>Mason Archambault - Brittni</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>Quitley, Jack</td>\n      <td>2023-Sep-04</td>\n      <td>2.0</td>\n      <td>Panter, Brittni (5)</td>\n      <td>At Home - OT Assistant</td>\n      <td>Cancelled by Staff or Footholds  - no billing ...</td>\n      <td>1:00 PM</td>\n      <td>3:00 PM</td>\n      <td>Jack Quitley - Brittni (OT assistant) (2:45PM ...</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>St. Luke, Carson</td>\n      <td>2023-Sep-04</td>\n      <td>2.5</td>\n      <td>Davies (5), Shanna</td>\n      <td>Intervention</td>\n      <td>Cancelled by Staff or Footholds  - no billing ...</td>\n      <td>9:30 AM</td>\n      <td>12:00 PM</td>\n      <td>Carson St. Luke intervention Stat Holiday</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>Slater, Khaleesi</td>\n      <td>2023-Sep-05</td>\n      <td>5.0</td>\n      <td>Przystupa, Jozefina</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:00 AM</td>\n      <td>2:00 PM</td>\n      <td>Khaleesi Slater - Jozefina -  9-2pm</td>\n    </tr>\n    <tr>\n      <th>5</th>\n      <td>Campbell, Johnny</td>\n      <td>2023-Sep-05</td>\n      <td>2.0</td>\n      <td>Bertin, Brooklyn</td>\n      <td>Intervention</td>\n      <td>24 Hour Cancellation - no billing &amp; staff not ...</td>\n      <td>3:00 PM</td>\n      <td>5:00 PM</td>\n      <td>Johnny Campbell - Brooklyn - 3:00-5:00(4:30PU)...</td>\n    </tr>\n    <tr>\n      <th>6</th>\n      <td>Rose-Pace, Shay</td>\n      <td>2023-Sep-04</td>\n      <td>3.0</td>\n      <td>Dubeau, Jordan</td>\n      <td>Intervention</td>\n      <td>Cancelled by Staff or Footholds  - no billing ...</td>\n      <td>9:00 AM</td>\n      <td>12:00 PM</td>\n      <td>Shay Rose-Pace - Jordan D - 9:00-12:00 (1:50PU...</td>\n    </tr>\n    <tr>\n      <th>7</th>\n      <td>McKenzie, Diamond</td>\n      <td>2023-Sep-05</td>\n      <td>2.0</td>\n      <td>Lambright, Alexandra (5)</td>\n      <td>Intervention</td>\n      <td>CANCELLATION FORM - session is billed &amp; staff ...</td>\n      <td>2:00 PM</td>\n      <td>4:00 PM</td>\n      <td>Diamond McKenzie - Alex - 2-4pm (Bus d/o) (inc...</td>\n    </tr>\n    <tr>\n      <th>8</th>\n      <td>Pinder, Damario</td>\n      <td>2023-Sep-01</td>\n      <td>2.0</td>\n      <td>Skolski (0), Hayden</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>3:00 PM</td>\n      <td>5:00 PM</td>\n      <td>Damario Pinder - Hayden - 3:00-5:00 (4:45 PU)</td>\n    </tr>\n    <tr>\n      <th>9</th>\n      <td>Drzewiecki, Mason</td>\n      <td>2023-Sep-05</td>\n      <td>2.0</td>\n      <td>Lambright, Alexandra (5)</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>4:00 PM</td>\n      <td>6:00 PM</td>\n      <td>Mason Drzewiecki - Alex L (5:45pm pu)</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "print('On the student col, there are some name that are not that billable, so those rows containing those need to be deleted from the data set')\nprint('On the Service Type col, there are some name that are not that billable, so those rows containing those need to be deleted from the data set')\nprint('On the Status Type col, the cancelled sessions are non-billable except for those cancelled in 24hours and cancellation form')\n\nprint()\n\nstudents_to_remove = [\"- , Meeting\",\"- , Office Work\",\"-, AVAILABLE\",\"-, Cleaning\",\"A\",\"FTC\",\"Program, Education\",'Gamlim, Kassie','Gamlin, Kassie']\nfootholds = footholds[~footholds['Student'].isin(students_to_remove)]\n\nServiceType_to_remove = [\"FTC Group\",\"Non-billable FTC time\"]\nfootholds = footholds[~footholds['Service Type'].isin(ServiceType_to_remove)]\n\nStatus_to_remove = ['Cancelled by Parent  - no billing & staff not paid','Cancelled by Staff or Footholds  - no billing & staff not paid']\nfootholds = footholds[~footholds['Status'].isin(Status_to_remove)]\n\n\nfootholds[200:210]",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 321,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "On the student col, there are some name that are not that billable, so those rows containing those need to be deleted from the data set\nOn the Service Type col, there are some name that are not that billable, so those rows containing those need to be deleted from the data set\nOn the Status Type col, the cancelled sessions are non-billable except for those cancelled in 24hours and cancellation form\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 321,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "                    Student   Start Date  Duration (hours)  \\\n333           Shimek, James  2023-Sep-25               1.0   \n335           Shimek, James  2023-Sep-18               1.0   \n336  Thorpe-Doubble, Colton  2023-Sep-06               0.5   \n337  Thorpe-Doubble, Colton  2023-Sep-13               0.5   \n338  Thorpe-Doubble, Colton  2023-Sep-20               0.5   \n339  Thorpe-Doubble, Colton  2023-Sep-27               0.5   \n340  Thorpe-Doubble, Colton  2023-Sep-06               2.5   \n341  Thorpe-Doubble, Colton  2023-Sep-13               2.5   \n342  Thorpe-Doubble, Colton  2023-Sep-20               2.5   \n343  Thorpe-Doubble, Colton  2023-Sep-27               2.5   \n\n         Interventionist          Service Type     Status Start Time  \\\n333    Topolinsky, Evynn  Occupational Therapy  Scheduled    4:00 PM   \n335    Topolinsky, Evynn  Occupational Therapy   Attended    4:00 PM   \n336  Sibley, Jessica (5)          Intervention   Attended    9:15 AM   \n337  Sibley, Jessica (5)          Intervention   Attended    9:15 AM   \n338  Sibley, Jessica (5)          Intervention   Attended    9:15 AM   \n339  Sibley, Jessica (5)          Intervention   Attended    9:15 AM   \n340  Sibley, Jessica (5)         SLP Assistant   Attended    9:45 AM   \n341  Sibley, Jessica (5)         SLP Assistant   Attended    9:45 AM   \n342  Sibley, Jessica (5)         SLP Assistant   Attended    9:45 AM   \n343  Sibley, Jessica (5)         SLP Assistant   Attended    9:45 AM   \n\n     End Time                                       Session Name  \n333   5:00 PM          James Shimek - Evynn - 4-5pm (p/u 4:45pm)  \n335   5:00 PM             James Shimek- Evynn 4-5pm (p/u 4:45pm)  \n336   9:45 AM         Prep Time - Colton Thorpe-Doubble- Jessica  \n337   9:45 AM         Prep Time - Colton Thorpe-Doubble- Jessica  \n338   9:45 AM         Prep Time - Colton Thorpe-Doubble- Jessica  \n339   9:45 AM         Prep Time - Colton Thorpe-Doubble- Jessica  \n340  12:15 PM  Colton Thorpe-Doubble - Jessica - SLP-A (incl ...  \n341  12:15 PM  Colton Thorpe-Doubble - Jessica - SLP-A (incl ...  \n342  12:15 PM  Colton Thorpe-Doubble - Jessica - SLP-A (incl ...  \n343  12:15 PM  Colton Thorpe-Doubble - Jessica - SLP-A (incl ...  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>Student</th>\n      <th>Start Date</th>\n      <th>Duration (hours)</th>\n      <th>Interventionist</th>\n      <th>Service Type</th>\n      <th>Status</th>\n      <th>Start Time</th>\n      <th>End Time</th>\n      <th>Session Name</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>333</th>\n      <td>Shimek, James</td>\n      <td>2023-Sep-25</td>\n      <td>1.0</td>\n      <td>Topolinsky, Evynn</td>\n      <td>Occupational Therapy</td>\n      <td>Scheduled</td>\n      <td>4:00 PM</td>\n      <td>5:00 PM</td>\n      <td>James Shimek - Evynn - 4-5pm (p/u 4:45pm)</td>\n    </tr>\n    <tr>\n      <th>335</th>\n      <td>Shimek, James</td>\n      <td>2023-Sep-18</td>\n      <td>1.0</td>\n      <td>Topolinsky, Evynn</td>\n      <td>Occupational Therapy</td>\n      <td>Attended</td>\n      <td>4:00 PM</td>\n      <td>5:00 PM</td>\n      <td>James Shimek- Evynn 4-5pm (p/u 4:45pm)</td>\n    </tr>\n    <tr>\n      <th>336</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-06</td>\n      <td>0.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:15 AM</td>\n      <td>9:45 AM</td>\n      <td>Prep Time - Colton Thorpe-Doubble- Jessica</td>\n    </tr>\n    <tr>\n      <th>337</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-13</td>\n      <td>0.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:15 AM</td>\n      <td>9:45 AM</td>\n      <td>Prep Time - Colton Thorpe-Doubble- Jessica</td>\n    </tr>\n    <tr>\n      <th>338</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-20</td>\n      <td>0.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:15 AM</td>\n      <td>9:45 AM</td>\n      <td>Prep Time - Colton Thorpe-Doubble- Jessica</td>\n    </tr>\n    <tr>\n      <th>339</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-27</td>\n      <td>0.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:15 AM</td>\n      <td>9:45 AM</td>\n      <td>Prep Time - Colton Thorpe-Doubble- Jessica</td>\n    </tr>\n    <tr>\n      <th>340</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-06</td>\n      <td>2.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>SLP Assistant</td>\n      <td>Attended</td>\n      <td>9:45 AM</td>\n      <td>12:15 PM</td>\n      <td>Colton Thorpe-Doubble - Jessica - SLP-A (incl ...</td>\n    </tr>\n    <tr>\n      <th>341</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-13</td>\n      <td>2.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>SLP Assistant</td>\n      <td>Attended</td>\n      <td>9:45 AM</td>\n      <td>12:15 PM</td>\n      <td>Colton Thorpe-Doubble - Jessica - SLP-A (incl ...</td>\n    </tr>\n    <tr>\n      <th>342</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-20</td>\n      <td>2.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>SLP Assistant</td>\n      <td>Attended</td>\n      <td>9:45 AM</td>\n      <td>12:15 PM</td>\n      <td>Colton Thorpe-Doubble - Jessica - SLP-A (incl ...</td>\n    </tr>\n    <tr>\n      <th>343</th>\n      <td>Thorpe-Doubble, Colton</td>\n      <td>2023-Sep-27</td>\n      <td>2.5</td>\n      <td>Sibley, Jessica (5)</td>\n      <td>SLP Assistant</td>\n      <td>Attended</td>\n      <td>9:45 AM</td>\n      <td>12:15 PM</td>\n      <td>Colton Thorpe-Doubble - Jessica - SLP-A (incl ...</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "print('The raw data shows that the art therapy services duration (hours) are overstated. They are recorded as a 2.25 instead of 2, 1.25 instead of 1. This would be adjusted')\n\nprint()\n\nArt_Therapy =footholds[footholds['Service Type'] == 'Art Therapy']\nmask = (footholds['Service Type'] == 'Art Therapy')\n\nfootholds.loc[mask, 'Duration (hours)'] = footholds.loc[mask, 'Duration (hours)'].replace({2.25: 2, 1.25: 1})\n\nArt_Therapy = footholds[mask]\n\nArt_Therapy.head(10)\n\n",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 322,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "The raw data shows that the art therapy services duration (hours) are overstated. They are recorded as a 2.25 instead of 2, 1.25 instead of 1. This would be adjusted\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 322,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "                Student   Start Date  Duration (hours)      Interventionist  \\\n460  Furzeland, Arielle  2023-Sep-05               2.0  Diminutto, Samantha   \n461  Furzeland, Arielle  2023-Sep-12               2.0  Diminutto, Samantha   \n462  Furzeland, Arielle  2023-Sep-19               2.0  Diminutto, Samantha   \n463  Furzeland, Arielle  2023-Sep-26               2.0  Diminutto, Samantha   \n949     Critchley, Ella  2023-Sep-14               2.0  Diminutto, Samantha   \n950     Critchley, Ella  2023-Sep-28               2.0  Diminutto, Samantha   \n951    Slater, Khaleesi  2023-Sep-14               1.0  Diminutto, Samantha   \n952    Slater, Khaleesi  2023-Sep-21               1.0  Diminutto, Samantha   \n953    Slater, Khaleesi  2023-Sep-28               1.0  Diminutto, Samantha   \n957         Deol, Ethan  2023-Sep-21               1.0  Diminutto, Samantha   \n\n    Service Type                                             Status  \\\n460  Art Therapy                                           Attended   \n461  Art Therapy                                           Attended   \n462  Art Therapy                                           Attended   \n463  Art Therapy                                           Attended   \n949  Art Therapy                                           Attended   \n950  Art Therapy                                          Scheduled   \n951  Art Therapy  CANCELLATION FORM - session is billed & staff ...   \n952  Art Therapy  CANCELLATION FORM - session is billed & staff ...   \n953  Art Therapy                                           Attended   \n957  Art Therapy                                          Scheduled   \n\n    Start Time End Time                                      Session Name  \n460    3:45 PM  6:00 PM    ZOOM SESSION - Arielle Furzeland - Session 4-6  \n461    3:45 PM  6:00 PM                   Arielle Furzeland - Session 4-6  \n462    3:45 PM  6:00 PM                   Arielle Furzeland - Session 4-6  \n463    3:45 PM  6:00 PM                   Arielle Furzeland - Session 4-6  \n949    3:30 PM  5:45 PM      Ella Critchley 3:45-5:45 session (BI WEEKLY)  \n950    3:30 PM  5:45 PM      Ella Critchley 3:45-5:45 session (BI WEEKLY)  \n951   12:00 PM  1:15 PM                Khaleesi Slater 12:15-1:15 session  \n952   12:00 PM  1:15 PM  Khaleesi Slater 12:15-1:15 session (TBC Away) KW  \n953   12:00 PM  1:15 PM                Khaleesi Slater 12:15-1:15 session  \n957    3:30 PM  4:45 PM                    Ethan Deol - 3:45-4:45 session  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>Student</th>\n      <th>Start Date</th>\n      <th>Duration (hours)</th>\n      <th>Interventionist</th>\n      <th>Service Type</th>\n      <th>Status</th>\n      <th>Start Time</th>\n      <th>End Time</th>\n      <th>Session Name</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>460</th>\n      <td>Furzeland, Arielle</td>\n      <td>2023-Sep-05</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>3:45 PM</td>\n      <td>6:00 PM</td>\n      <td>ZOOM SESSION - Arielle Furzeland - Session 4-6</td>\n    </tr>\n    <tr>\n      <th>461</th>\n      <td>Furzeland, Arielle</td>\n      <td>2023-Sep-12</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>3:45 PM</td>\n      <td>6:00 PM</td>\n      <td>Arielle Furzeland - Session 4-6</td>\n    </tr>\n    <tr>\n      <th>462</th>\n      <td>Furzeland, Arielle</td>\n      <td>2023-Sep-19</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>3:45 PM</td>\n      <td>6:00 PM</td>\n      <td>Arielle Furzeland - Session 4-6</td>\n    </tr>\n    <tr>\n      <th>463</th>\n      <td>Furzeland, Arielle</td>\n      <td>2023-Sep-26</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>3:45 PM</td>\n      <td>6:00 PM</td>\n      <td>Arielle Furzeland - Session 4-6</td>\n    </tr>\n    <tr>\n      <th>949</th>\n      <td>Critchley, Ella</td>\n      <td>2023-Sep-14</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>3:30 PM</td>\n      <td>5:45 PM</td>\n      <td>Ella Critchley 3:45-5:45 session (BI WEEKLY)</td>\n    </tr>\n    <tr>\n      <th>950</th>\n      <td>Critchley, Ella</td>\n      <td>2023-Sep-28</td>\n      <td>2.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Scheduled</td>\n      <td>3:30 PM</td>\n      <td>5:45 PM</td>\n      <td>Ella Critchley 3:45-5:45 session (BI WEEKLY)</td>\n    </tr>\n    <tr>\n      <th>951</th>\n      <td>Slater, Khaleesi</td>\n      <td>2023-Sep-14</td>\n      <td>1.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>CANCELLATION FORM - session is billed &amp; staff ...</td>\n      <td>12:00 PM</td>\n      <td>1:15 PM</td>\n      <td>Khaleesi Slater 12:15-1:15 session</td>\n    </tr>\n    <tr>\n      <th>952</th>\n      <td>Slater, Khaleesi</td>\n      <td>2023-Sep-21</td>\n      <td>1.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>CANCELLATION FORM - session is billed &amp; staff ...</td>\n      <td>12:00 PM</td>\n      <td>1:15 PM</td>\n      <td>Khaleesi Slater 12:15-1:15 session (TBC Away) KW</td>\n    </tr>\n    <tr>\n      <th>953</th>\n      <td>Slater, Khaleesi</td>\n      <td>2023-Sep-28</td>\n      <td>1.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Attended</td>\n      <td>12:00 PM</td>\n      <td>1:15 PM</td>\n      <td>Khaleesi Slater 12:15-1:15 session</td>\n    </tr>\n    <tr>\n      <th>957</th>\n      <td>Deol, Ethan</td>\n      <td>2023-Sep-21</td>\n      <td>1.0</td>\n      <td>Diminutto, Samantha</td>\n      <td>Art Therapy</td>\n      <td>Scheduled</td>\n      <td>3:30 PM</td>\n      <td>4:45 PM</td>\n      <td>Ethan Deol - 3:45-4:45 session</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "print('A student called \"Quitley Jack\" should have the duration (hours) of 1.5 hours irrespective of what is on the original data set')\n\nprint()\n\nQuitley_Jack = footholds[footholds['Student'] == 'Quitley, Jack']\n\nmask2 = (footholds['Student'] == 'Quitley, Jack')\n\nfootholds.loc[mask2, 'Duration (hours)'] = footholds.loc[mask2, 'Duration (hours)'].replace({1:1.5})\n\nQuitley_Jack = footholds[mask2]\n\nQuitley_Jack.head(10)",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 325,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "A student called \"Quitley Jack\" should have the duration (hours) of 1.5 hours irrespective of what is on the original data set\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 325,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "            Student   Start Date  Duration (hours)      Interventionist  \\\n1501  Quitley, Jack  2023-Sep-15               1.5  Panter, Brittni (5)   \n2283  Quitley, Jack  2023-Sep-15               1.5       Brittni Panter   \n\n                Service Type    Status Start Time End Time  \\\n1501  At Home - OT Assistant  Attended   12:00 PM  1:00 PM   \n2283                    Lead  AHP OT-A        NaN      NaN   \n\n                               Session Name  \n1501  Jack Quitley - Brittni - 12:00-1:00pm  \n2283                                    NaN  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>Student</th>\n      <th>Start Date</th>\n      <th>Duration (hours)</th>\n      <th>Interventionist</th>\n      <th>Service Type</th>\n      <th>Status</th>\n      <th>Start Time</th>\n      <th>End Time</th>\n      <th>Session Name</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>1501</th>\n      <td>Quitley, Jack</td>\n      <td>2023-Sep-15</td>\n      <td>1.5</td>\n      <td>Panter, Brittni (5)</td>\n      <td>At Home - OT Assistant</td>\n      <td>Attended</td>\n      <td>12:00 PM</td>\n      <td>1:00 PM</td>\n      <td>Jack Quitley - Brittni - 12:00-1:00pm</td>\n    </tr>\n    <tr>\n      <th>2283</th>\n      <td>Quitley, Jack</td>\n      <td>2023-Sep-15</td>\n      <td>1.5</td>\n      <td>Brittni Panter</td>\n      <td>Lead</td>\n      <td>AHP OT-A</td>\n      <td>NaN</td>\n      <td>NaN</td>\n      <td>NaN</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "print('Now, the next stage is to sort the data set by student, Interventionist, service type and start date.')\n\nprint()\n\nsorted_footholds = footholds.sort_values(by=['Student','Interventionist','Service Type','Start Date'])\n\nsorted_footholds = sorted_footholds.reset_index(drop=True)\n\nfootholds.update(sorted_footholds)\n\nfootholds.head(10)",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 326,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "Now, the next stage is to sort the data set by student, Interventionist, service type and start date.\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 326,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "                      Student   Start Date  Duration (hours)  \\\n4   Alfayyadh, Yusuf Abhinaya  2023-Sep-14              2.00   \n5   Alfayyadh, Yusuf Abhinaya  2023-Sep-21              2.00   \n7          Archambault, Mason  2023-Sep-12              2.00   \n8          Archambault, Mason  2023-Sep-19              2.00   \n9          Archambault, Mason  2023-Sep-12              2.00   \n11               BISHT, Advik  2023-Sep-01              1.50   \n13            Baldwin, Sienna  2023-Sep-13              0.06   \n15            Baldwin, Sienna  2023-Sep-14              0.05   \n20            Baldwin, Sienna  2023-Sep-27              0.08   \n22            Baldwin, Sienna  2023-Sep-28              0.06   \n\n        Interventionist              Service Type  \\\n4   Skolski (0), Hayden              Intervention   \n5   Skolski (0), Hayden              Intervention   \n7        Brittni Panter                      Lead   \n8        Brittni Panter                      Lead   \n9   Panter, Brittni (5)                      Lead   \n11  McCallum (5), Kayla      Behaviour Consulting   \n13                 Alex  Transportation (Mileage)   \n15                 Alex  Transportation (Mileage)   \n20                 Alex  Transportation (Mileage)   \n22                 Alex  Transportation (Mileage)   \n\n                                               Status Start Time  End Time  \\\n4                                            Attended    9:00 AM  11:00 AM   \n5                                            Attended    9:00 AM  11:00 AM   \n7                                                  BI    2:00 PM   4:00 PM   \n8                                                  BI    3:00 PM   5:00 PM   \n9                                            Attended   12:30 PM   2:30 PM   \n11  programming intake child portion and fgollow u...    9:00 AM  12:30 PM   \n13                                           Attended    3:00 PM   3:25 PM   \n15                                           Attended    3:00 PM   3:25 PM   \n20                                           Attended    4:40 PM   5:05 PM   \n22                                           Attended    4:40 PM   5:05 PM   \n\n                                         Session Name  \n4             Yusuf Abhinaya Alfayyadh- Hayden 9-11am  \n5             Yusuf Abhinaya Alfayyadh- Hayden 9-11am  \n7   Diamond McKenzie - Alex - 2-4pm (Bus d/o) (inc...  \n8       Damario Pinder - Hayden - 3:00-5:00 (4:45 PU)  \n9                         Mason Archambault - Brittni  \n11                                 Wyatt Shaw - Kayla  \n13                                            Mileage  \n15                                            Mileage  \n20                                            Mileage  \n22                                            Mileage  ",
+            "text/html": "<div>\n<style scoped>\n    .dataframe tbody tr th:only-of-type {\n        vertical-align: middle;\n    }\n\n    .dataframe tbody tr th {\n        vertical-align: top;\n    }\n\n    .dataframe thead th {\n        text-align: right;\n    }\n</style>\n<table border=\"1\" class=\"dataframe\">\n  <thead>\n    <tr style=\"text-align: right;\">\n      <th></th>\n      <th>Student</th>\n      <th>Start Date</th>\n      <th>Duration (hours)</th>\n      <th>Interventionist</th>\n      <th>Service Type</th>\n      <th>Status</th>\n      <th>Start Time</th>\n      <th>End Time</th>\n      <th>Session Name</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>4</th>\n      <td>Alfayyadh, Yusuf Abhinaya</td>\n      <td>2023-Sep-14</td>\n      <td>2.00</td>\n      <td>Skolski (0), Hayden</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:00 AM</td>\n      <td>11:00 AM</td>\n      <td>Yusuf Abhinaya Alfayyadh- Hayden 9-11am</td>\n    </tr>\n    <tr>\n      <th>5</th>\n      <td>Alfayyadh, Yusuf Abhinaya</td>\n      <td>2023-Sep-21</td>\n      <td>2.00</td>\n      <td>Skolski (0), Hayden</td>\n      <td>Intervention</td>\n      <td>Attended</td>\n      <td>9:00 AM</td>\n      <td>11:00 AM</td>\n      <td>Yusuf Abhinaya Alfayyadh- Hayden 9-11am</td>\n    </tr>\n    <tr>\n      <th>7</th>\n      <td>Archambault, Mason</td>\n      <td>2023-Sep-12</td>\n      <td>2.00</td>\n      <td>Brittni Panter</td>\n      <td>Lead</td>\n      <td>BI</td>\n      <td>2:00 PM</td>\n      <td>4:00 PM</td>\n      <td>Diamond McKenzie - Alex - 2-4pm (Bus d/o) (inc...</td>\n    </tr>\n    <tr>\n      <th>8</th>\n      <td>Archambault, Mason</td>\n      <td>2023-Sep-19</td>\n      <td>2.00</td>\n      <td>Brittni Panter</td>\n      <td>Lead</td>\n      <td>BI</td>\n      <td>3:00 PM</td>\n      <td>5:00 PM</td>\n      <td>Damario Pinder - Hayden - 3:00-5:00 (4:45 PU)</td>\n    </tr>\n    <tr>\n      <th>9</th>\n      <td>Archambault, Mason</td>\n      <td>2023-Sep-12</td>\n      <td>2.00</td>\n      <td>Panter, Brittni (5)</td>\n      <td>Lead</td>\n      <td>Attended</td>\n      <td>12:30 PM</td>\n      <td>2:30 PM</td>\n      <td>Mason Archambault - Brittni</td>\n    </tr>\n    <tr>\n      <th>11</th>\n      <td>BISHT, Advik</td>\n      <td>2023-Sep-01</td>\n      <td>1.50</td>\n      <td>McCallum (5), Kayla</td>\n      <td>Behaviour Consulting</td>\n      <td>programming intake child portion and fgollow u...</td>\n      <td>9:00 AM</td>\n      <td>12:30 PM</td>\n      <td>Wyatt Shaw - Kayla</td>\n    </tr>\n    <tr>\n      <th>13</th>\n      <td>Baldwin, Sienna</td>\n      <td>2023-Sep-13</td>\n      <td>0.06</td>\n      <td>Alex</td>\n      <td>Transportation (Mileage)</td>\n      <td>Attended</td>\n      <td>3:00 PM</td>\n      <td>3:25 PM</td>\n      <td>Mileage</td>\n    </tr>\n    <tr>\n      <th>15</th>\n      <td>Baldwin, Sienna</td>\n      <td>2023-Sep-14</td>\n      <td>0.05</td>\n      <td>Alex</td>\n      <td>Transportation (Mileage)</td>\n      <td>Attended</td>\n      <td>3:00 PM</td>\n      <td>3:25 PM</td>\n      <td>Mileage</td>\n    </tr>\n    <tr>\n      <th>20</th>\n      <td>Baldwin, Sienna</td>\n      <td>2023-Sep-27</td>\n      <td>0.08</td>\n      <td>Alex</td>\n      <td>Transportation (Mileage)</td>\n      <td>Attended</td>\n      <td>4:40 PM</td>\n      <td>5:05 PM</td>\n      <td>Mileage</td>\n    </tr>\n    <tr>\n      <th>22</th>\n      <td>Baldwin, Sienna</td>\n      <td>2023-Sep-28</td>\n      <td>0.06</td>\n      <td>Alex</td>\n      <td>Transportation (Mileage)</td>\n      <td>Attended</td>\n      <td>4:40 PM</td>\n      <td>5:05 PM</td>\n      <td>Mileage</td>\n    </tr>\n  </tbody>\n</table>\n</div>"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "print('Hurray! The data is now ready for invoicing')\nprint('After cleaning, we can see that the number of rows reduced to 1091.')\n\nprint()\n\nfootholds.shape\n",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": 327,
+      "outputs": [
+        {
+          "name": "stdout",
+          "text": "Hurray! The data is now ready for invoicing\nAfter cleaning, we can see that the number of rows reduced to 1091.\n\n",
+          "output_type": "stream"
+        },
+        {
+          "execution_count": 327,
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": "(1091, 9)"
+          },
+          "metadata": {}
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": "",
+      "metadata": {
+        "trusted": true
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
